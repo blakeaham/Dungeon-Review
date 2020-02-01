@@ -1,0 +1,88 @@
+body {
+	background-color: gray;
+	background-size: 100%;
+	min-height: 100%
+}
+
+#myVideo {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  /*transform: rotate(180deg);  */
+  z-index: -1;
+}
+
+h3 {
+	text-align: center;
+	background-color: rgba(0,0,0,0.75);
+	color: lawngreen;
+	padding: 12px;
+	font-weight: bold;
+	font-size: 1.5em;
+	font-family: Courier, monospace;
+	-moz-box-shadow: 5px 5px 5px 12px rgba(199, 33, 20,0.5);
+	-webkit-box-shadow: 5px 5px 12px 5px rgba(199, 33, 20,0.5);
+	box-shadow: 5px 5px 10px 2px rgba(199, 33, 20,0.5);
+}
+
+button {
+	color: darkred;
+	font-weight: bold;
+	align-self: center;
+	flex: 1;
+	font-size: 1.5em;
+	font-family: Courier, monospace;
+	background-color: gray;
+}
+
+
+
+/* #button-container {
+	align-self: center;
+	text-align: center;
+	background-color: blue;
+	width: 50%;
+	fill: blue;
+}
+*/
+.button-cont {
+	align-self: center;
+	text-align: center;
+	background-color: grey;
+	margin:12px;
+}
+
+.small-stat {
+	width: 25%;
+	margin: 10%;
+	float: left;
+}
+
+small-stat-container {
+	width: 50%;
+	text-align: center;
+
+}
+
+.half-container {
+	width: 50%;
+}
+
+#right-div {
+	width: 90%;
+	position: fixed;
+	font-size: 1.25em;
+	top: 2.5em;
+	right: 2.5em;
+	height: 50%;
+	overflow: auto;
+	text-align: bottom;
+	float: left;
+	font-family: Courier, monospace;
+	color: lawngreen;
+	font-weight: bold; 
+	background-color: rgba(0,0,0,0.75);
+	align-self: right;
+}
