@@ -47,3 +47,58 @@ let selectMonster = () => {
 	}
 	page.xpPrize = opponent.health + opponent.dmgDie + opponent.atkMod + opponent.ac;
 }
+
+
+
+
+//monster library bestiary --depreciated--
+
+/*let determineEnemy = [
+	{
+		name: 'bat',
+		health: 3,
+		dmgDie: 4,
+		atkMod: 1,
+		ac: 13,
+		boss: false
+
+	},
+	{
+		name: 'bandit',
+		health: 18,
+		dmgDie: 6,
+		atkMod: 3,
+		ac: 12,
+		boss: false
+	},
+	{
+		name: 'wolf',
+		health: 12,
+		dmgDie: 8,
+		atkMod: 2,
+		ac: 10,
+		boss: false
+	},
+	{
+		name: 'Giant Spider',
+		health: 8,
+		dmgDie: 12,
+		atkMod: 1,
+		ac: 9,
+		boss: false
+	},
+	
+];
+*/
+//Determining Monster Goes here
+
+/*const selectMonster = () => {
+	n = Math.floor(Math.random() * determineEnemy.length);
+	opponent.health = determineEnemy[n].health;
+	opponent.atkMod = determineEnemy[n].atkMod;
+	opponent.dmgDie = determineEnemy[n].dmgDie;
+	opponent.ac = determineEnemy[n].ac;
+	opponent.boss = determineEnemy[n].boss;
+	opponent.name = determineEnemy[n].name;
+}
+*/

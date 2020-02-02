@@ -11,6 +11,21 @@ let page = {
 	
 	wins: 0,
 	scene: null,
+	gameMessage: document.getElementById('game-message'),
+	button1: document.getElementById('button1'),
+	button2: document.getElementById('button2'),
+	video: document.querySelector('video'),
+	video1: document.querySelector('source'),
+	backgroundImage: document.querySelector('body'),
+	goldDiv: document.getElementById('gold-page'),
+	topDiv: document.getElementById('top-label'),
+	topMessage: document.getElementById('top-message'),
+	bottomDiv: document.getElementById('bottom-label'),
+	bottomMessage: document.getElementById('bottom-message'),
+	rollDisplay: document.getElementById('player-roll-sub'),
+	gameLog: document.getElementById('right-div'),
+	xpDisplay: document.getElementById('wins-page'),
+	buttonList: document.getElementById('buttonList')
 
 }
 
@@ -20,9 +35,7 @@ let player = {
 	level: 1,
 	firstAttack: true,
 	inventory: [],
-	rollAttack: function(){
-		//WRITE THIS
-	}
+
 }
 // GIVE PLAYER POTION
 // NEED TO REMOVE ITEM WHEN USED (do this within the item's function)
@@ -38,24 +51,13 @@ const givePotion = () => { player.inventory = [{"name": "potion", "method": func
 
 let opponent = {
 	health: 10,
-	power: 2
+	power: 2,
+
 }
 
-const gameMessage = document.getElementById('game-message');
-const button1 = document.getElementById('button1');
-const button2 = document.getElementById('button2');
-const video = document.querySelector('video');
-const video1 = document.querySelector('source');
-const backgroundImage = document.querySelector('body');
-const goldDiv = document.getElementById('gold-page');
-const topDiv = document.getElementById('top-label');
-const topMessage = document.getElementById('top-message');
-const bottomDiv = document.getElementById('bottom-label');
-const bottomMessage = document.getElementById('bottom-message');
-const rollDisplay = document.getElementById('player-roll-sub');
-const gameLog = document.getElementById('right-div');
-const xpDisplay = document.getElementById('wins-page');
-const buttonList = document.getElementById('buttonList');
+
+
+
 const mealPrice = player.level * 3;
 
 //gonna try a scene object
@@ -69,7 +71,7 @@ const initializeButtons = () => {
 		let node = document.createElement("button");
 		let textNode = document.createTextNode(`${element.name}`);
 		node.appendChild(textNode);
-		buttonList.appendChild(node);
+		page.buttonList.appendChild(node);
 		node.addEventListener("click",element.method);
 
 	})
@@ -78,40 +80,34 @@ const initializeButtons = () => {
 };
 
 
-let action1;
-
-const setButton1 = (text, method) => {
-	button1.innerText= text;
-	action1 = method;
-}
-let action2;
-
-const setButton2 = (text, method) => {
-	button2.innerText= text;
-	action2 = method;
-}
 
 
 
 
 // Classes class list class selection
 
+/*
+HOLY CRAP DUMDUM
+
+player.class = {name: 'fighter', hd: 10,}
+*/
+
 const fighter = () => {
 
-	player.strength = page.playerStats[0];
+	player.strength = player.statArray[0];
 	player.strMod = Math.floor((player.strength - 10) / 2);
 	player.atkMod = player.strMod;
-	player.dexterity = page.playerStats[2];
+	player.dexterity = player.statArray[2];
 	player.dexMod = Math.floor((player.dexterity - 10) / 2);
 	player.dmgDie = 8;
 	player.hd = 10;
-	player.hpMax = Math.floor((page.playerStats[1] - 10)) + 20;
+	player.hpMax = Math.floor((player.statArray[1] - 10)) + 20;
 	player.health = player.hpMax;
 	player.ac = 14 + player.dexMod
 	currentLog += 'You are a beefy fighter: +' + player.strMod + ' is your attack modifier, and you have ' + player.hpMax + ' health. \n Your AC is: '+ player.ac +' \n You are good at killing; in fact, you were just trying to kill this ' + opponent.name;
 	buttons.push({'name':'Fight!', 'method':fight});
 	buttons.push({'name':'Run off!', 'method':run});
-	gameMessage.innerText = "What do you do?"
+	page.gameMessage.innerText = "What do you do?"
 	printToScreen()
 
 }	
@@ -120,12 +116,12 @@ const rogue = () => {
 
 
 	player.class = 'rogue';
-	player.dexterity = page.playerStats[0];
+	player.dexterity = player.statArray[0];
 	player.dexMod = Math.floor((player.dexterity - 10) / 2);
 	player.atkMod = player.dexMod;
 	player.dmgDie = 6;
 	player.hd = 8;
-	player.hpMax = Math.floor((page.playerStats[1] - 10)) + 16;
+	player.hpMax = Math.floor((player.statArray[1] - 10)) + 16;
 	player.health = player.hpMax;
 	player.ac = 12 + player.dexMod
 	currentLog += 'You are a sneaky rogue : +' + player.dexMod + ' is your attack modifier, and you have ' + player.hpMax + ' health. \n Your AC is: '+ player.ac +' \n You are good escaping; in fact, you were just trying to escape this ' + opponent.name;
@@ -133,57 +129,7 @@ const rogue = () => {
 	buttons.push({'name':'Run off!', 'method':run});
 	printToScreen()
 }
-//monster library bestiary
 
-/*let determineEnemy = [
-	{
-		name: 'bat',
-		health: 3,
-		dmgDie: 4,
-		atkMod: 1,
-		ac: 13,
-		boss: false
-
-	},
-	{
-		name: 'bandit',
-		health: 18,
-		dmgDie: 6,
-		atkMod: 3,
-		ac: 12,
-		boss: false
-	},
-	{
-		name: 'wolf',
-		health: 12,
-		dmgDie: 8,
-		atkMod: 2,
-		ac: 10,
-		boss: false
-	},
-	{
-		name: 'Giant Spider',
-		health: 8,
-		dmgDie: 12,
-		atkMod: 1,
-		ac: 9,
-		boss: false
-	},
-	
-];
-*/
-//Determining Monster Goes here
-
-/*const selectMonster = () => {
-	n = Math.floor(Math.random() * determineEnemy.length);
-	opponent.health = determineEnemy[n].health;
-	opponent.atkMod = determineEnemy[n].atkMod;
-	opponent.dmgDie = determineEnemy[n].dmgDie;
-	opponent.ac = determineEnemy[n].ac;
-	opponent.boss = determineEnemy[n].boss;
-	opponent.name = determineEnemy[n].name;
-}
-*/
 
 //Rolls rolling attack traits rolls
 
@@ -194,26 +140,39 @@ const roll = () => {
 	console.log(player.rollResult + ' and ' + opponent.rollResult);
 }
 
+const roll20 = (creature) =>{
+	let die = rollD(20);
+	creature.rollResult = die;
+	return (die + creature.atkMod);
+}
+
+roundStart = () => {
+	page.playerRoll = roll20(player);
+	page.opponentRoll = roll20(opponent);
+	console.log('player rolled ' + player.rollResult + ' enemy rolled' + opponent.rollResult);
+	console.log('player total ' + page.playerRoll + ' enemy total' + page.opponentRoll);
+}
+
 const rollD = (d) => {
 	return Math.floor(Math.random() * d + 1);
 	}
 
 const rollStats = () => {
-	page.playerStats = [];
+	player.statArray = [];
 	for (i=0; i < 6; i++) {
-		page.playerStats.push(rollD(6) + rollD(6) + 6);
+		player.statArray.push(rollD(6) + rollD(6) + 6);
 	}
-	console.log(page.playerStats);
-	page.playerStats.sort((a, b) => b - a);
-	gameMessage.innerText = "What class do you choose?";
+	console.log(player.statArray);
+	player.statArray.sort((a, b) => b - a);
+	page.gameMessage.innerText = "What class do you choose?";
 	buttons.push({'name':'Fighter', 'method':fighter});
 	buttons.push({'name':'Rogue', 'method':rogue});
-	currentLog += "Your stats are " + page.playerStats;
+	currentLog += "Your stats are " + player.statArray;
 	printToScreen()
 };
 
-const determineAttack = (power) => {
-	return rollD(power.dmgDie) + power.atkMod;
+const rollDmg = (char) => {
+	return rollD(char.dmgDie) + char.atkMod;
 }
 
 
@@ -221,10 +180,10 @@ const determineAttack = (power) => {
 //actions
 
 const giveUp = () => {
-	button2.disabled = true;
-	button1.disabled = true;
-	setButton1('YOU',0);
-	setButton2('QUIT!?',0);
+	page.button2.disabled = true;
+	page.button1.disabled = true;
+	setpage.Button1('YOU',0);
+	setpage.Button2('QUIT!?',0);
 	return;
 	}
 
@@ -232,10 +191,10 @@ const giveUp = () => {
 
 const fight = () => {
 	roll();
-	//   gameLog.innerText += "\n You attack, rolling a " + (player.rollResult + player.atkMod);
+	//   page.gameLog.innerText += "\n You attack, rolling a " + (player.rollResult + player.atkMod);
 	
-	let playerAttack = determineAttack(player);
-	if (player.rollResult + player.atkMod >= opponent.ac ) {
+	let playerAttack = rollDmg(player);
+	if (page.playerRoll >= opponent.ac ) {
 		if (player.class === 'rogue') {
 			if (player.firstAttack === true) {
 				let snd = rollD(6);
@@ -254,7 +213,7 @@ const fight = () => {
 	}
 
 	if (isGameOver(opponent.health)){
-		gameMessage.innerText = "Player won!";
+		page.gameMessage.innerText = "Player won!";
 		player.firstAttack = true;
 		win();
 		buttons.push({'name':'Go Home!', 'method':home});
@@ -262,20 +221,20 @@ const fight = () => {
 	} else {
 	buttons.push({'name':'Fight!', 'method':fight});
 	buttons.push({'name':'Run off!', 'method':run});
-	gameMessage.innerText = "The opponent lunges!"
-		let opponentAttack = determineAttack(opponent);
+	page.gameMessage.innerText = "The opponent lunges!"
+		let opponentAttack = rollDmg(opponent);
 		if ( opponent.rollResult +  opponent.atkMod >= player.ac ) {
-			gameMessage.innerText = "You got hit!";	
+			page.gameMessage.innerText = "You got hit!";	
 			player.health -= opponentAttack;
 			console.log('hit  u for' + opponentAttack)
 		} else {
-			gameMessage.innerText = "They Missed you!";	
+			page.gameMessage.innerText = "They Missed you!";	
 			console.log('missed u')
 		}
 		
 
 		if (isGameOver(player.health)){
-		gameMessage.innerText = "Opponent won!";
+		page.gameMessage.innerText = "Opponent won!";
 		buttons.push({'name':'YOU', 'method':alert('game over')});
 		buttons.push({'name':'DIED', 'method':alert("It's Over!")});
 		printToScreen();
@@ -311,7 +270,7 @@ const run = () => {
 	buttons.push({'name':'Fight!', 'method':fight});
 	buttons.push({'name':'Run off!', 'method':run});
 	currentLog += 'You try to run, but are struck!';
-	gameMessage.innerText = "You're struck, and stuck!"
+	page.gameMessage.innerText = "You're struck, and stuck!"
 	} else {
 		currentLog += 'You make it away from the ' + opponent.name;
 		player.firstAttack = true;
@@ -349,7 +308,7 @@ const home = () => {
 
 
 		console.log('doing the healing')
-		goldDiv.innerText = player.gold;
+		page.goldDiv.innerText = player.gold;
 		currentLog += 'You make it back to the Slippery Corkscrew, the local inn and tavern. \n Micah passes you a beer from behind the bar. \n He says he\'ll have a plate out soon. \n'
 		player.health = player.hpMax;
 		currentLog += 'Your health is ' +  player.health + ' and you\'re ready to  go out and fight again!';
@@ -370,8 +329,8 @@ const home = () => {
 
 const printToScreen = () => {
 	console.log('clearing prev btns');
-	while (buttonList.firstChild) {
-    buttonList.removeChild(buttonList.firstChild);
+	while (page.buttonList.firstChild) {
+    page.buttonList.removeChild(page.buttonList.firstChild);
   	};
   	if(player.inventory[0]){
   		player.inventory.forEach(e => {
@@ -382,35 +341,35 @@ const printToScreen = () => {
 	initializeButtons();
 
 	console.log(buttons);
-	backgroundImage.style.backgroundImage = `url('css/img/${sceneObj.name}.jpg')`;
+	page.backgroundImage.style.page.backgroundImage = `url('css/img/${sceneObj.name}.jpg')`;
 /*	let vidID = `css/vid/${sceneObj.name}.mp4`
 	console.log(sceneObj.name);
 	console.log('prev ' + sceneObj.pName);
 		if (sceneObj.name != sceneObj.pName){
-			console.log('this   ' + video1.src);
-			video1.src = vidID;
-			video.load();
+			console.log('this   ' + page.video1.src);
+			page.video1.src = vidID;
+			page.video.load();
 			sceneObj.pName = sceneObj.name;
 		}*/
 	if (sceneObj.name === 'tavern'){
-	topDiv.innerText = 'Back at the Slippery Corkscrew';
-	topMessage.innerText = " you seek food and lodging.";
+	page.topDiv.innerText = 'Back at the Slippery Corkscrew';
+	page.topMessage.innerText = " you seek food and lodging.";
 	} else {
-	rollDisplay.innerText = player.rollResult;
+	page.rollDisplay.innerText = player.rollResult;
 	page.opponentName = opponent.name;
-	topDiv.innerText = 'You face a ' + page.opponentName + ' :';
-	topMessage.innerText = "Your opponent has " + opponent.health + " health";
+	page.topDiv.innerText = 'You face a ' + page.opponentName + ' :';
+	page.topMessage.innerText = "Your opponent has " + opponent.health + " health";
 	
 	}
 	
 	if (currentLog === '') { 
 		console.log('empty CurrentLog');
 	} else {
-		gameLog.innerText += '\n' + currentLog + '\n';
+		page.gameLog.innerText += '\n' + currentLog + '\n';
 		currentLog = '';
 	}
-	bottomMessage.innerText = "You have " + player.health + " health";
-	gameLog.scrollTop = gameLog.scrollHeight;
+	page.bottomMessage.innerText = "You have " + player.health + " health";
+	page.gameLog.scrollTop = page.gameLog.scrollHeight;
 	
 }
 
@@ -436,11 +395,11 @@ const win = () => {
 		player.gold += Math.floor(Math.random() * 88) + 55;
 	}
 	player.gold += Math.floor(Math.random() * 5) + 2;
-	goldDiv.innerText = player.gold;
+	page.goldDiv.innerText = player.gold;
 	console.log(page.wins);
 	page.wins += page.xpPrize;
 	console.log(page.wins + 'y');
-	xpDisplay.innerText = page.wins;
+	page.xpDisplay.innerText = page.wins;
 	/*if (page.wins === 5) {      //better way for this?
 		determineEnemy.push({
 		name: 'Leshen',
@@ -467,8 +426,7 @@ const advanceCheck = () => {
 
 const forest= () => {
 	sceneObj.name = 'forest';
-	// video1.src ="forestVideo.mp4";
-	// video.load();
+
 	page.scene = 'forest';
 	buttons.push({'name':'Fight!', 'method':fight});
 	buttons.push({'name':'Run off!', 'method':run});
