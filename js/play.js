@@ -1,3 +1,6 @@
+// https://www.sitepoint.com/quick-tip-game-loop-in-javascript/
+// Check that out for an outline game loop.
+
 console.log('Playplaying')
 
 const sceneObj = {
